@@ -1,0 +1,5 @@
+
+
+object LearningScala31 {
+  
+}
