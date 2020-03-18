@@ -20,10 +20,20 @@ object wordcount {
     val data = sc.textFile("../book.txt");
     
     
-    val formatedData = data.flatMap(x => x.split(" "));
+    val formatedData = data.flatMap(x => x.split("\\W+"));
     
-    val wordCounts = formatedData.countByValue();
+    val lowercase = formatedData.map(x=> x.toLowerCase());
     
-    wordCounts.foreach(println); 
+    val mappedData = lowercase.map(x => (x,1)).reduceByKey((x,y) => (x+y));
+    
+    val rotateData = mappedData.map(x =>(x._2.toInt,x._1));
+    val results = rotateData.sortByKey();
+    
+   for( result <- results) {
+     
+     val count = result._1;
+     val word = result._2;
+     println(s"$word : $count");
+   }
   }
 }
